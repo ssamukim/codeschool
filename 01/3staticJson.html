@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3staticJson.html</title>
+</head>
+
+<body>
+	<h1>AJAX</h1>
+    <h2>Page 2 is Static JSON</h2>
+    
+    <h3>Goal</h3>
+    <p>Access the static JSON document and display the weather temperatures. Apply the sort order defined in cities array.</p>
+    
+    <h3>Technologies</h3>
+    <ul>
+    	<li>JavaScript</li>
+        <li>JavaScript jQuery</li>
+        <li>JavaScript jQuery AJAX</li>
+        <li>HTML</li>
+    </ul>
+    
+    <h3>Live demo</h3>
+    <div id="temps"></div>
+        <!-- Attach Jquery library -->
+    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <!-- Page specific code -->
+
+    <script>
+    function displayTemps(data) {
+        //console.log(data);
+        $("#temps").
+            append("City of " + data.city + " is " + data.temp + " degrees celcius.");
+    }
+
+    $.ajax({
+        "url": "city.json",
+        "success": function(response) {
+            //console.log(response.result.cities);
+            window.payload = response.result; // global variable on window so that it can be accessed anywhere
+            $.each(response.result.cities, function (i, value) {
+                //console.log(value);
+                //displayTemps({ "city": value, "temp": 0 }); // displaying city value
+                displayTemps({ 
+                    "city": value, 
+                    "temp": window.payload[value].temp 
+                });       
+            });
+           
+        },
+        // "error": function() {
+        //     debugger;
+        // }
+
+        $.ajax({
+            "url": "city.json",
+            "success": getData,
+            "error": function () {
+                debugger;
+            }
+        })
+    });
+
+
+            
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
